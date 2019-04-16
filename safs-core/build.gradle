@@ -1,0 +1,26 @@
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+
+// Support Java 6 which lack java.nio.file:
+//noinspection GroovyUnusedAssignment
+sourceCompatibility = 1.6
+//noinspection GroovyUnusedAssignment
+targetCompatibility = 1.6
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  testImplementation 'junit:junit:4.12'
+}
+
+// https://android.jlelse.eu/android-local-libraries-with-maven-b7456d4268cf
+// https://docs.gradle.org/current/userguide/publishing_maven.html
+publishing {
+  publications {
+    mavenJar(MavenPublication) {
+      groupId = 'com.llamalab.safs'
+      artifactId = 'safs-core'
+      version = '0.2.0'
+      from components.java
+    }
+  }
+}
