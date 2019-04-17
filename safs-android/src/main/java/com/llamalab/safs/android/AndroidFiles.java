@@ -32,27 +32,26 @@ import com.llamalab.safs.unix.UnixPath;
 import java.io.IOException;
 import java.util.Iterator;
 
-// https://github.com/android/platform_frameworks_base/blob/master/core/java/android/app/ContextImpl.java
 public final class AndroidFiles {
 
   private AndroidFiles () {}
 
   /**
-   * @see	android.content.Context#getCacheDir
+   * @see android.content.Context#getCacheDir
    */
   public static Path getCacheDirectory () {
     return fileSystem().getCacheDirectory();
   }
 
   /**
-   * @see	android.os.Environment#getExternalStorageDirectory
+   * @see android.os.Environment#getExternalStorageDirectory
    */
   public static Path getExternalStorageDirectory () {
     return fileSystem().getExternalStorageDirectory();
   }
 
   /**
-   * @see	android.content.Context#getFilesDir
+   * @see android.content.Context#getFilesDir
    */
   public static Path getFilesDirectory () {
     final AndroidFileSystem fs = fileSystem();
@@ -60,7 +59,7 @@ public final class AndroidFiles {
   }
 
   /**
-   * @see	android.content.Context#getDir
+   * @see android.content.Context#getDir
    */
   public static Path getDirectory (String name) {
     final AndroidFileSystem fs = fileSystem();
@@ -68,7 +67,7 @@ public final class AndroidFiles {
   }
 
   /**
-   * @see	android.os.Environment#getExternalStoragePublicDirectory
+   * @see android.os.Environment#getExternalStoragePublicDirectory
    */
   public static Path getExternalStoragePublicDirectory (String type) {
     return fileSystem().getPathSanitized(Environment.getExternalStoragePublicDirectory(type).toString());
@@ -95,42 +94,42 @@ public final class AndroidFiles {
   }
 
   /**
-   * @see	android.os.Environment#getExternalStorageState
+   * @see android.os.Environment#getExternalStorageState
    */
   public static boolean isExternalStorageMounted () throws IOException {
     return isFileStoreMounted(getExternalStorageDirectory());
   }
 
   /**
-   * @see	android.os.Environment#getExternalStorageState(java.io.File)
+   * @see android.os.Environment#getExternalStorageState(java.io.File)
    */
   public static boolean isFileStoreMounted (Path path) throws IOException {
     return provider(path).isFileStoreMounted(path);
   }
 
   /**
-   * @see	android.os.Environment#isExternalStorageEmulated()
+   * @see android.os.Environment#isExternalStorageEmulated()
    */
   public static boolean isExternalStorageEmulated () throws IOException {
     return isFileStoreEmulated(getExternalStorageDirectory());
   }
 
   /**
-   * @see	android.os.Environment#isExternalStorageEmulated(java.io.File)
+   * @see android.os.Environment#isExternalStorageEmulated(java.io.File)
    */
   public static boolean isFileStoreEmulated (Path path) throws IOException {
     return provider(path).isFileStoreEmulated(path);
   }
 
   /**
-   * @see	android.os.Environment#isExternalStorageRemovable
+   * @see android.os.Environment#isExternalStorageRemovable
    */
   public static boolean isExternalStorageRemovable () throws IOException {
     return isFileStoreRemovable(getExternalStorageDirectory());
   }
 
   /**
-   * @see	android.os.Environment#isExternalStorageRemovable(java.io.File)
+   * @see android.os.Environment#isExternalStorageRemovable(java.io.File)
    */
   public static boolean isFileStoreRemovable (Path path) throws IOException {
     return provider(path).isFileStoreRemovable(path);

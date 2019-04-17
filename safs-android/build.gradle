@@ -3,6 +3,8 @@ plugins {
   id 'digital.wup.android-maven-publish' version '3.6.2'
 }
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply from: '../bintray.gradle'
 
 android {
   compileSdkVersion 27
@@ -11,7 +13,8 @@ android {
     //noinspection OldTargetApi
     targetSdkVersion 26
     //versionCode 2
-    //versionName '0.2.0'
+    //versionName rootProject.ext.releaseVersion
+
     //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   compileOptions {
@@ -28,8 +31,7 @@ android {
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
-  api project(':safs-core')
-  //api 'com.llamalab.safs:safs-core:0.2.0'
+  api project(':safs-core') // api for <scope>compile</scope>
   testImplementation 'junit:junit:4.12'
   //androidTestImplementation 'com.android.support.test:runner:1.0.2'
   //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -37,11 +39,21 @@ dependencies {
 
 publishing {
   publications {
-    mavenAar(MavenPublication) {
+    maven(MavenPublication) {
       groupId = 'com.llamalab.safs'
       artifactId = 'safs-android'
-      version = '0.2.0' //android.defaultConfig.versionName
+      version = rootProject.ext.releaseVersion //android.defaultConfig.versionName
       from components.android
+      //artifact sourcesJar // required by jcentral, android-maven-publish already include it?!
     }
   }
+}
+
+task sourcesJar (type: Jar) {
+  from android.sourceSets.main.java.srcDirs
+  classifier = 'sources'
+}
+
+artifacts {
+  archives sourcesJar
 }

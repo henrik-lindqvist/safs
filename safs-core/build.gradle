@@ -1,5 +1,7 @@
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+apply from: '../bintray.gradle'
 
 // Support Java 6 which lack java.nio.file:
 //noinspection GroovyUnusedAssignment
@@ -12,15 +14,23 @@ dependencies {
   testImplementation 'junit:junit:4.12'
 }
 
-// https://android.jlelse.eu/android-local-libraries-with-maven-b7456d4268cf
-// https://docs.gradle.org/current/userguide/publishing_maven.html
 publishing {
   publications {
-    mavenJar(MavenPublication) {
+    maven(MavenPublication) {
       groupId = 'com.llamalab.safs'
       artifactId = 'safs-core'
-      version = '0.2.0'
+      version = rootProject.ext.releaseVersion
       from components.java
+      artifact sourcesJar // required by jcentral
     }
   }
+}
+
+task sourcesJar (type: Jar, dependsOn: classes) {
+  from sourceSets.main.allSource
+  classifier = 'sources'
+}
+
+artifacts {
+  archives sourcesJar
 }

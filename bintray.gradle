@@ -1,0 +1,28 @@
+
+Properties localProperties = new Properties()
+localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+  user = localProperties.getProperty('bintray.user')
+  key = localProperties.getProperty('bintray.key')
+  publications = [ 'maven' ]
+  dryRun = false
+  publish = false
+  override = false
+  pkg {
+    repo = 'safs'
+    name = 'safs'
+    licenses = [ 'Apache-2.0' ]
+    vcsUrl = 'https://github.com/henrik-lindqvist/safs.git'
+    issueTrackerUrl = 'https://github.com/henrik-lindqvist/safs/issues'
+    websiteUrl = 'https://github.com/henrik-lindqvist/safs'
+    version {
+      name = rootProject.ext.releaseVersion
+      //vcsTag = rootProject.ext.releaseVersion
+      gpg {
+        passphrase = localProperties.getProperty('bintray.gpg.passphrase')
+        sign = true
+      }
+    }
+  }
+}
